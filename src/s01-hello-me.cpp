@@ -1,9 +1,7 @@
 #include <iostream>
 
-using namespace std;
-
 auto main() -> int
 {
-    cout << "Hello Karol" << endl;
+    std::cout << "Hello Karol" << std::endl;
     return 0;
 }

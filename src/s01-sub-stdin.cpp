@@ -7,7 +7,7 @@ auto ask_user_for_integer(std::string prompt) -> int
     std::cout << prompt << "(int): ";
     auto number = std::string{};
     std::getline(std::cin, number);
-    return std::stoi(int);
+    return std::stoi(number);
 }
 
 auto main() -> int
