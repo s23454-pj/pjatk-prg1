@@ -1,37 +1,26 @@
 #include <iostream>
 #include <string>
 
-
-auto print_reverse(int argc, char* argv[])
+auto get_initial_value(bool reverse, int argc) -> int
 {
-    for (int i = argc - 1; i >= 1; --i) {
-        std::cout << argv[i] << " ";
-    }
+    return reverse ? argc - 1 : 1;
 }
 
-auto print_new_line(int argc, char* argv[], bool reverse = false)
+auto get_for_statement(bool reverse, int argc, int control_variable) -> bool
 {
-    if (reverse) {
-        for (int i = argc - 1; i >= 1; --i) {
-            std::cout << argv[i] << "\n";
-        }
-    } else {
-        for (int i = 1; i < argc; ++i) {
-            std::cout << argv[i] << '\n';
-        }
-    }
+    return reverse ? control_variable >= 1 : control_variable < argc;
 }
 
-auto print_no_new_line(int argc, char* argv[], bool reverse = false)
+
+auto print_line(int argc,
+                char* argv[],
+                bool reverse  = false,
+                bool new_line = false)
 {
-    if (reverse) {
-        for (int i = argc - 1; i >= 1; --i) {
-            std::cout << argv[i] << " ";
-        }
-    } else {
-        for (int i = 1; i < argc; ++i) {
-            std::cout << argv[i] << " ";
-        }
+    for (int i = get_initial_value(reverse, argc);
+         get_for_statement(reverse, argc, i);
+         reverse ? --i : ++i) {
+        std::cout << argv[i] << (new_line ? "\n" : "");
     }
 }
 
@@ -41,39 +30,42 @@ auto main(int argc, char* argv[]) -> int
     auto first_option = argv[1];
 
     auto new_line      = false;
-    auto no_break_line = false;
     auto reverse_line  = false;
+    auto no_break_line = false;
 
     for (int i = 1; i < argc; ++i) {
-        if (!strcmp(argv[i], "-n")) {
-            no_break_line = true;
-        } else if (!strcmp(argv[i], "-l")) {
+        if (!strcmp(argv[i], "-l")) {
             new_line = true;
         } else if (!strcmp(argv[i], "-r")) {
             reverse_line = true;
+        } else if (!strcmp(argv[i], "-n")) {
+            no_break_line = true;
         }
     }
 
-    if (reverse_line) {
-        if (new_line) {
-            print_new_line(argc, argv, true);
-        } else if (no_break_line) {
-            print_no_new_line(argc, argv, true);
-        } else {
-            print_reverse(argc, argv);
-        }
+    if (new_line and no_break_line and reverse_line) {
+        std::cout << "Only one of '-l', '-n' switches can be provided at the "
+                     "same time with '-r'.";
+        return 0;
+    }
+
+    if (!(new_line or reverse_line or no_break_line)) {
+        std::cout << "At least one of switches '-r', '-n', '-l' is required.";
+        return 0;
+    }
+
+    if (!strcmp(first_option, "-r")) {
+        print_line(argc, argv, reverse_line, new_line);
+    } else if (!strcmp(first_option, "-l")) {
+        print_line(argc, argv, reverse_line, new_line);
+    } else if (!strcmp(first_option, "-n")) {
+        print_line(argc, argv, reverse_line, false);
+    } else if (reverse_line and (new_line or no_break_line)) {
+        print_line(argc, argv, reverse_line, new_line);
     } else {
-        if (!strcmp(first_option, "-n")) {
-            print_no_new_line(argc, argv);
-        } else if (!strcmp(first_option, "-r")) {
-            print_reverse(argc, argv);
-        } else if (!strcmp(first_option, "-l")) {
-            print_new_line(argc, argv);
-        } else {
-            print_new_line(argc, argv);
-        }
+        std::cout << "Wrong arguments. Provide one of '-r', '-l', '-n' at the "
+                     "first place or pairs '-r -n', '-r -l' in any order";
     }
-
 
     return 0;
 }
