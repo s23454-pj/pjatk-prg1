@@ -15,7 +15,7 @@ CXXFLAGS=\
 		 $(CXXINCLUDES)
 
 format:
-	clang-format -i src/*.cpp
+	clang-format -i src/*.cpp include/*.h include/s23454/*.h
 
 FILENAME=
 compile:

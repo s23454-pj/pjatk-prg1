@@ -75,7 +75,7 @@ auto evaluate_division_int(std::stack<double>& stack) -> void
 auto evaluate_remainder(std::stack<double>& stack) -> void
 {
     if (stack.size() < 2) {
-        throw std::logic_error{"not enough operands for //"};
+        throw std::logic_error{"not enough operands for %"};
     }
     auto const b = int(pop_top(stack));
     auto const a = int(pop_top(stack));
