@@ -5,10 +5,11 @@
 namespace s23454 {
 struct Time {
     int hh, mm, ss;
-    enum class Time_of_day { morning, day, evening, night, not_set };
+    enum class Time_of_day { morning, day, evening, night };
 
     Time(int, int, int);
-    auto to_string(enum Time_of_day) const -> std::string;
+    static auto to_string(Time_of_day const) -> std::string;
+    auto to_string() const -> std::string;
     auto time_of_day() const -> Time_of_day;
     auto next_hour();
     auto next_minute();

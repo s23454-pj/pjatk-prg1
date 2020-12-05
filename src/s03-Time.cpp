@@ -14,33 +14,29 @@ auto prepare_unit_to_print(int unit) -> std::string
     return out.str();
 }
 
-auto s23454::Time::to_string(enum s23454::Time::Time_of_day time_of_day =
-                                 s23454::Time::Time_of_day::not_set) const
+auto s23454::Time::to_string() const -> std::string
+{
+    auto out = std::ostringstream{};
+    out << prepare_unit_to_print(hh) << ":" << prepare_unit_to_print(mm) << ":"
+        << prepare_unit_to_print(ss) << "\n";
+    return out.str();
+}
+
+auto s23454::Time::to_string(const s23454::Time::Time_of_day time_of_day)
     -> std::string
 {
     auto out = std::ostringstream{};
-    if (time_of_day != Time_of_day::not_set) {
-        switch (time_of_day) {
-        case Time_of_day::morning:
-            out << "Morning";
-            break;
-        case Time_of_day::day:
-            out << "Day";
-            break;
-        case Time_of_day::evening:
-            out << "Evening";
-            break;
-        case Time_of_day::night:
-            out << "Night";
-            break;
-        default:
-            break;
-        }
-        out << "\n";
-    } else {
-        out << prepare_unit_to_print(hh) << ":" << prepare_unit_to_print(mm)
-            << ":" << prepare_unit_to_print(ss) << "\n";
+    switch (time_of_day) {
+    case Time_of_day::morning:
+        out << "Morning";
+    case Time_of_day::day:
+        out << "Day";
+    case Time_of_day::evening:
+        out << "Evening";
+    case Time_of_day::night:
+        out << "Night";
     }
+    out << "\n";
     return out.str();
 }
 
