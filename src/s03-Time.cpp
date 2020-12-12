@@ -22,22 +22,18 @@ auto s23454::Time::to_string() const -> std::string
     return out.str();
 }
 
-auto s23454::Time::to_string(const s23454::Time::Time_of_day time_of_day)
-    -> std::string
+auto s23454::Time::to_string(const Time_of_day time_of_day) -> std::string
 {
-    auto out = std::ostringstream{};
     switch (time_of_day) {
     case Time_of_day::morning:
-        out << "Morning";
+        return "Morning\n";
     case Time_of_day::day:
-        out << "Day";
+        return "Day\n";
     case Time_of_day::evening:
-        out << "Evening";
+        return "Evening\n";
     case Time_of_day::night:
-        out << "Night";
+        return "Night\n";
     }
-    out << "\n";
-    return out.str();
 }
 
 
@@ -224,7 +220,7 @@ auto main() -> int
 
     std::cout << "time_to_midnight()\n";
     time = s23454::Time{23, 59, 59};
-    std::cout << time.time_to_midnight().to_string() << "\n\n";
+    std::cout << time.time_to_midnight().to_string();
 
     return 0;
 }
